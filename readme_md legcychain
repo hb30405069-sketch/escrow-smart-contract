@@ -1,0 +1,22 @@
+# 🧬 LegacyChain: Emergency Unlock Vault
+
+A decentralized identity + inheritance vault system designed to survive 50+ years. Unlock digital assets in emergencies using just a name and CNIC (hashed & privacy-preserving).
+
+## 🔐 Features
+
+- Time-locked smart contract vaults (ERC-721)
+- Emergency unlock via CNIC + name (zk-SNARKs or hashed)
+- Guardian-based social recovery
+- Long-term survivability (IPFS + DAO governance)
+- Urdu-English dApp interface (coming soon)
+
+## 📦 Contracts
+
+- `LegacyVault.sol`: Ownable vault with time-lock and asset storage
+- `EmergencyUnlock.sol`: Verifies identity via hashed CNIC + name
+- `IUnlockVerifier.sol`: Interface for zk-proof or hash verification
+
+## 🧪 Testing
+
+```bash
+npx hardhat test
