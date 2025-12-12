@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "./LegacyVault.sol";
+
+contract EmergencyUnlock {
+    mapping(bytes32 => address) public identityToVault;
+
+    event VaultLinked(bytes32 identityHash, address vault);
+    event EmergencyAccessGranted(address vault, address requester);
+
+    function registerVault(string memory name, string memory cnic, address vault) public {
+        bytes32 identityHash = keccak256(abi.encodePacked(name, cnic));
+        identityToVault[identityHash] = vault;
+        emit VaultLinked(identityHash, vault);
+    }
+
+    function requestEmergencyAccess(string memory name, string memory cnic) public {
+        bytes32 identityHash = keccak256(abi.encodePacked(name, cnic));
+        address vaultAddr = identityToVault[identityHash];
+        require(vaultAddr != address(0), "Vault not found");
+
+        LegacyVault vault = LegacyVault(vaultAddr);
+        vault.emergencyUnlock(msg.sender);
+
+        emit EmergencyAccessGranted(vaultAddr, msg.sender);
+    }
+}
