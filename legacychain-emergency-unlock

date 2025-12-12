@@ -1,0 +1,16 @@
+legacychain-emergency-unlock/
+├── contracts/
+│   ├── LegacyVault.sol
+│   ├── EmergencyUnlock.sol
+│   └── interfaces/
+│       └── IUnlockVerifier.sol
+├── test/
+│   └── legacyVault.test.js
+├── scripts/
+│   └── deploy.js
+├── docs/
+│   └── architecture.md
+├── README.md
+├── hardhat.config.js
+├── package.json
+└── .env.example
