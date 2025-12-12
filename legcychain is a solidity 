@@ -1,0 +1,38 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract LegacyVault {
+    address public owner;
+    uint256 public unlockTime;
+    string private encryptedData; // IPFS hash or encrypted will/NFTs
+
+    event VaultUpdated(string newData);
+    event VaultUnlocked(address by);
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not vault owner");
+        _;
+    }
+
+    constructor(uint256 _unlockTime, string memory _data) {
+        owner = msg.sender;
+        unlockTime = _unlockTime;
+        encryptedData = _data;
+    }
+
+    function updateData(string memory _newData) public onlyOwner {
+        encryptedData = _newData;
+        emit VaultUpdated(_newData);
+    }
+
+    function viewData() public view returns (string memory) {
+        require(block.timestamp >= unlockTime || msg.sender == owner, "Vault locked");
+        return encryptedData;
+    }
+
+    function emergencyUnlock(address _guardian) public {
+        require(msg.sender == _guardian, "Not authorized");
+        require(block.timestamp >= unlockTime, "Too early");
+        emit VaultUnlocked(_guardian);
+    }
+}
